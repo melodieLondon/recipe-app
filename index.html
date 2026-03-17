@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>My Recipe Box</title>
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#faf8f3" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Recipe Box" />
+  <link rel="apple-touch-icon" href="icon-192.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- LOADING -->
+  <div id="loading-screen">
+    <div class="loading-inner">
+      <div class="loading-icon">🍽</div>
+      <div class="loading-title">My Recipe Box</div>
+      <div class="loading-sub">Loading your recipes…</div>
+    </div>
+  </div>
+
+  <!-- APP SHELL -->
+  <div id="app" class="hidden">
+
+    <!-- HOME -->
+    <div id="screen-home" class="screen">
+      <header class="home-header">
+        <div class="home-title">My Recipe Box</div>
+        <div class="home-sub">What are we cooking today?</div>
+      </header>
+      <div class="cat-grid">
+        <button class="cat-card" data-cat="meat"    onclick="pickCategory('meat')">
+          <span class="cat-emoji">🥩</span>
+          <span class="cat-name">Meat</span>
+          <span class="cat-count" id="count-meat"></span>
+        </button>
+        <button class="cat-card" data-cat="fish"    onclick="pickCategory('fish')">
+          <span class="cat-emoji">🐟</span>
+          <span class="cat-name">Fish</span>
+          <span class="cat-count" id="count-fish"></span>
+        </button>
+        <button class="cat-card" data-cat="veggie"  onclick="pickCategory('veggie')">
+          <span class="cat-emoji">🥦</span>
+          <span class="cat-name">Veggie</span>
+          <span class="cat-count" id="count-veggie"></span>
+        </button>
+        <button class="cat-card" data-cat="dessert" onclick="pickCategory('dessert')">
+          <span class="cat-emoji">🍰</span>
+          <span class="cat-name">Dessert</span>
+          <span class="cat-count" id="count-dessert"></span>
+        </button>
+      </div>
+      <div class="home-footer">
+        <button class="refresh-btn" onclick="loadRecipes(true)" title="Refresh recipes from Google Sheets">↻ Refresh</button>
+      </div>
+    </div>
+
+    <!-- RECIPE -->
+    <div id="screen-recipe" class="screen hidden">
+      <div class="recipe-topbar">
+        <button class="back-btn" onclick="goHome()">← Back</button>
+        <button class="next-btn" id="next-btn" onclick="nextRecipe()">Next →</button>
+      </div>
+      <div id="recipe-content"></div>
+    </div>
+
+    <!-- ERROR -->
+    <div id="screen-error" class="screen hidden">
+      <div class="error-box">
+        <div class="error-icon">⚠️</div>
+        <div class="error-title">Couldn't load recipes</div>
+        <div class="error-msg" id="error-msg"></div>
+        <button class="btn-primary" onclick="loadRecipes(true)" style="margin-top:1.5rem;">Try again</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
