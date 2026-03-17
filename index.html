@@ -63,7 +63,7 @@
     <div id="screen-recipe" class="screen hidden">
       <div class="recipe-topbar">
         <button class="back-btn" onclick="goHome()">← Back</button>
-        <button class="next-btn" id="next-btn" onclick="nextRecipe()">Next →</button>
+        <button class="next-btn" onclick="nextRecipe()">Next →</button>
       </div>
       <div id="recipe-content"></div>
     </div>
@@ -74,7 +74,7 @@
         <div class="error-icon">⚠️</div>
         <div class="error-title">Couldn't load recipes</div>
         <div class="error-msg" id="error-msg"></div>
-        <button class="btn-primary" onclick="loadRecipes(true)" style="margin-top:1.5rem;">Try again</button>
+        <button class="btn-primary" onclick="loadRecipes()" style="margin-top:1.5rem;">Try again</button>
       </div>
     </div>
 
@@ -82,5 +82,14 @@
 
   <script src="config.js"></script>
   <script src="app.js"></script>
+  <script>
+    // Register service worker for home screen / PWA support
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js')
+          .catch(err => console.warn('SW registration failed:', err));
+      });
+    }
+  </script>
 </body>
 </html>
