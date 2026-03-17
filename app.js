@@ -1,6 +1,6 @@
 // ── state ────────────────────────────────────────────────────
-let recipes   = [];
-let catSeen   = { meat: [], fish: [], veggie: [], dessert: [] };
+let recipes    = [];
+let catSeen    = { meat: [], fish: [], veggie: [], dessert: [] };
 let currentCat = null;
 
 const CAT_META = {
@@ -11,17 +11,10 @@ const CAT_META = {
 };
 
 // ── boot ─────────────────────────────────────────────────────
-window.addEventListener("DOMContentLoaded", () => loadRecipes(false));
+window.addEventListener("DOMContentLoaded", () => loadRecipes());
 
-async function loadRecipes(force) {
+async function loadRecipes() {
   showScreen("loading");
-
-  if (!force) {
-    const cached = sessionStorage.getItem("recipes_cache");
-    if (cached) {
-      try { recipes = JSON.parse(cached); onLoaded(); return; } catch(e) {}
-    }
-  }
 
   if (!CONFIG.SHEET_CSV_URL || CONFIG.SHEET_CSV_URL === "YOUR_GOOGLE_SHEET_CSV_URL_HERE") {
     showError("No Google Sheet URL set. Please edit config.js and add your sheet URL.");
@@ -29,23 +22,20 @@ async function loadRecipes(force) {
   }
 
   try {
-    const url = force
-      ? CONFIG.SHEET_CSV_URL + (CONFIG.SHEET_CSV_URL.includes("?") ? "&" : "?") + "_=" + Date.now()
-      : CONFIG.SHEET_CSV_URL;
+    // Always fetch fresh — cache-bust with timestamp
+    const url = CONFIG.SHEET_CSV_URL +
+      (CONFIG.SHEET_CSV_URL.includes("?") ? "&" : "?") + "_=" + Date.now();
     const res = await fetch(url);
     if (!res.ok) throw new Error("HTTP " + res.status);
     const csv = await res.text();
     recipes = parseCSV(csv);
-    sessionStorage.setItem("recipes_cache", JSON.stringify(recipes));
-    onLoaded();
+    updateCounts();
+    showScreen("home");
   } catch (err) {
-    showError("Could not fetch recipes: " + err.message + "<br><br>Make sure your Google Sheet is published (File → Share → Publish to web → CSV) and the URL in config.js is correct.");
+    showError("Could not fetch recipes: " + err.message +
+      "<br><br>Make sure your Google Sheet is published " +
+      "(File → Share → Publish to web → CSV) and the URL in config.js is correct.");
   }
-}
-
-function onLoaded() {
-  updateCounts();
-  showScreen("home");
 }
 
 // ── Google Drive URL converter ────────────────────────────────
@@ -155,9 +145,10 @@ function renderRecipe(r) {
   const meta = CAT_META[r.cat];
   const ingHtml = r.ingredients.map(i => "<li class='ing-item'>" + i + "</li>").join("");
   const nutHtml = r.nutrition ? "<div class='nutrition-label'>" + r.nutrition + "</div>" : "";
-
   const imgHtml = r.image
-    ? "<div class='recipe-hero' id='recipe-hero'><img src='" + r.image + "' alt='" + r.name.replace(/'/g,"&#39;") + "' class='recipe-hero-img' onerror=\"document.getElementById('recipe-hero').style.display='none'\" loading='lazy' /></div>"
+    ? "<div class='recipe-hero' id='recipe-hero'><img src='" + r.image +
+      "' alt='" + r.name.replace(/'/g, "&#39;") +
+      "' class='recipe-hero-img' onerror=\"document.getElementById('recipe-hero').style.display='none'\" loading='lazy' /></div>"
     : "";
 
   document.getElementById("recipe-content").innerHTML =
