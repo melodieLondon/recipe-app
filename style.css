@@ -304,3 +304,26 @@ body {
     --card-bg:    #242118;
   }
 }
+
+/* ── recipe hero image ───────────────────────────────────────── */
+.recipe-hero {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--border);
+}
+
+.recipe-hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: opacity 0.3s ease;
+}
+
+.recipe-card-body {
+  padding: 0;
+}
+
+/* when there's no image, card-body padding is handled by existing classes */
+.recipe-cat-pill   { padding-top: 1.25rem; }
