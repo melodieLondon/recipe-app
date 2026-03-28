@@ -1,6 +1,6 @@
 // ── state ────────────────────────────────────────────────────
 let recipes    = [];
-let catSeen    = { meat: [], fish: [], veggie: [], dessert: [] };
+let catSeen    = { meat: [], fish: [], veggie: [], dessert: [], breakfast: [], snack: [] };
 let currentCat = null;
 
 const CAT_META = {
@@ -166,7 +166,6 @@ function renderRecipe(r) {
           "<h2 class='section-heading'>Method</h2>" +
           "<p class='method-text'>" + r.method.replace(/\n/g, "<br>") + "</p>" +
         "</section>" +
-        nutHtml +
       "</div>" +
     "</div>";
 
