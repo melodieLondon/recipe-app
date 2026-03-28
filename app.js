@@ -8,8 +8,8 @@ const CAT_META = {
   fish:    { label: "Fish",    emoji: "🐟", accent: "#1a6fa8" },
   veggie:  { label: "Veggie",  emoji: "🥦", accent: "#27783a" },
   dessert: { label: "Dessert", emoji: "🍰", accent: "#8e3a7f" },
-  dessert: { label: "Breakfast", emoji: "🥐", accent: "#f29e20" },
-  dessert: { label: "Snack", emoji: "🍿", accent: "#077171" },
+  breakfast: { label: "Breakfast", emoji: "🥐", accent: "#f29e20" },
+  snack: { label: "Snack", emoji: "🍿", accent: "#077171" },
 };
 
 // ── boot ─────────────────────────────────────────────────────
