@@ -8,6 +8,8 @@ const CAT_META = {
   fish:    { label: "Fish",    emoji: "🐟", accent: "#1a6fa8" },
   veggie:  { label: "Veggie",  emoji: "🥦", accent: "#27783a" },
   dessert: { label: "Dessert", emoji: "🍰", accent: "#8e3a7f" },
+  dessert: { label: "Breakfast", emoji: "🥐", accent: "#f29e20" },
+  dessert: { label: "Snack", emoji: "🍿", accent: "#077171" },
 };
 
 // ── boot ─────────────────────────────────────────────────────
@@ -52,7 +54,7 @@ function driveUrl(raw) {
 }
 
 // ── CSV parser ───────────────────────────────────────────────
-// Columns: category | name | subtitle | meta | ingredients | method | nutrition | image
+// Columns: category | name | meta | ingredients | method | image
 function parseCSV(text) {
   const lines = text.trim().split("\n");
   if (lines.length < 2) return [];
@@ -64,16 +66,14 @@ function parseCSV(text) {
     const row = {};
     headers.forEach((h, idx) => { row[h] = (cols[idx] || "").trim(); });
     const cat = (row["category"] || "").toLowerCase();
-    if (!["meat","fish","veggie","dessert"].includes(cat)) continue;
+    if (!["meat","fish","veggie","dessert","breakfast",'snack'].includes(cat)) continue;
     out.push({
       id:          "row_" + i,
       cat:         cat,
       name:        row["name"]        || "",
-      subtitle:    row["subtitle"]    || "",
       meta:        row["meta"]        || "",
       ingredients: (row["ingredients"] || "").split(";").map(s => s.trim()).filter(Boolean),
       method:      row["method"]      || "",
-      nutrition:   row["nutrition"]   || "",
       image:       driveUrl(row["image"] || ""),
     });
   }
@@ -144,7 +144,6 @@ function nextRecipe() { if (currentCat) pickCategory(currentCat); }
 function renderRecipe(r) {
   const meta = CAT_META[r.cat];
   const ingHtml = r.ingredients.map(i => "<li class='ing-item'>" + i + "</li>").join("");
-  const nutHtml = r.nutrition ? "<div class='nutrition-label'>" + r.nutrition + "</div>" : "";
   const imgHtml = r.image
     ? "<div class='recipe-hero' id='recipe-hero'><img src='" + r.image +
       "' alt='" + r.name.replace(/'/g, "&#39;") +
@@ -157,7 +156,6 @@ function renderRecipe(r) {
       "<div class='recipe-card-body'>" +
         "<div class='recipe-cat-pill'><span>" + meta.emoji + "</span> " + meta.label + "</div>" +
         "<h1 class='recipe-name'>" + r.name + "</h1>" +
-        (r.subtitle ? "<p class='recipe-subtitle'>" + r.subtitle + "</p>" : "") +
         (r.meta     ? "<p class='recipe-meta'>"     + r.meta     + "</p>" : "") +
         "<div class='recipe-divider'></div>" +
         "<section class='recipe-section'>" +

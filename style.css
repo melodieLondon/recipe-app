@@ -104,6 +104,8 @@ body {
 .cat-card[data-cat="fish"]::before    { background: #1a6fa8; }
 .cat-card[data-cat="veggie"]::before  { background: #27783a; }
 .cat-card[data-cat="dessert"]::before { background: #8e3a7f; }
+.cat-card[data-cat="breakfast"]::before { background: #f29e20; }
+.cat-card[data-cat="snack"]::before { background: #077171; }
 
 .cat-card:hover  { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); border-color: var(--border-mid); }
 .cat-card:active { transform: scale(0.97); box-shadow: none; }
