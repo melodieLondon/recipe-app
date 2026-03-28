@@ -2,7 +2,7 @@
 // Caches the app shell so it loads from home screen correctly.
 // The actual recipe data always fetches fresh from Google Sheets.
 
-const CACHE = 'recipe-app-v1';
+const CACHE = 'recipe-app-v2';
 const SHELL = [
   './',
   './index.html',
